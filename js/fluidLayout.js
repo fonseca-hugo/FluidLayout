@@ -100,21 +100,25 @@ FluidLayout = (function () {
             // Calculate basic layout parameters.
             var columnWidth = this.displayOptions.itemWidth + this.displayOptions.offset,
                 containerWidth = $(this.displayOptions.container).width(),
+                columns;
+
+            if (columnWidth) {
                 columns = Math.floor((containerWidth + this.displayOptions.offset) / columnWidth);
 
-            // Cast to boolean
-            reset = !!reset;
-            this.adjustingLayout = true;
-
-            // If container and column count hasn't changed, we can only update the columns.
-            if (this.displayColumns.length === columns && !reset) {
-                this.updateTileColumns(columnWidth, false);
-            } else {
-                this.updateAllTiles(columnWidth, columns);
+                // Cast to boolean
+                reset = !!reset;
+                this.adjustingLayout = true;
+    
+                // If container and column count hasn't changed, we can only update the columns.
+                if (this.displayColumns.length === columns && !reset) {
+                    this.updateTileColumns(columnWidth, false);
+                } else {
+                    this.updateAllTiles(columnWidth, columns);
+                }
+    
+                // Set container height to new height.
+                $(this.displayOptions.container).css('height', this.containerBottom + 'px');
             }
-
-            // Set container height to new height.
-            $(this.displayOptions.container).css('height', this.containerBottom + 'px');
         },
         /**
          * This function only updates the vertical position of the
